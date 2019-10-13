@@ -34,4 +34,5 @@ for px in image: #px is the pixel value
 
 ps.make_wav(sound, fn = "sound.wav", silent = False, bpm = 240)
 os.system("aplay sound.wav")
+print('hello')
         
