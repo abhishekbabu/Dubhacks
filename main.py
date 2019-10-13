@@ -42,7 +42,14 @@ notes = [choice_of_scale[i] for i in range(len(choice_of_scale))]
 # Part 3 -->
 
 image = cv2.imread('test.jpg', 0)
-image = skimage.measure.block_reduce(image, (50,50), np.mean)
+
+height, width, channels = img.shape
+
+maxNumNotes = 30 # Should be user input, approximately
+poolWidth = ceil(width / sqrt(maxNumNotes)) # Added
+poolHeight = ceil(height / sqrt(maxNumNotes)) # Added
+
+image = skimage.measure.block_reduce(image, (poolWidth,poolHeight), np.mean) # Changed line
 image = image.flatten()
 # pooling stuff happens here
 
@@ -86,4 +93,5 @@ for px in image: #px is the pixel value
     else:
         # play a note
         # sample:
+        player.play_wave(synthesizer.generate_constant_wave(fr, duration))
         player.play_wave(synthesizer.generate_constant_wave(fr, duration))
