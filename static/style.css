@@ -1,12 +1,12 @@
-body {
+body, html {
 	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
 
-body {
-	background-color: #EFEAEA;
+body, html {
+	background-color: #efeaea;
 }
 
-body {
+body, html {
 	height: 100%;
 	line-height = 2.0;
 	text-align: center;

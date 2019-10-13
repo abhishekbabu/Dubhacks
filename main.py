@@ -55,6 +55,9 @@ def play():
     # Part 3 -->
 
     image = cv2.imread('images/nature.jpg', 0)
+
+    #image = str(request.get('img'))
+
     image = skimage.measure.block_reduce(image, (150,150), np.mean)
     image = image.flatten()
     # pooling stuff happens here
