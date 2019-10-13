@@ -13,7 +13,7 @@ player = Player()
 player.open_stream()
 synthesizer = Synthesizer(osc1_waveform=Waveform.sine, osc1_volume=1.0, use_osc2=False)
 #####################
-chordOrNot = [0,0,0,1]
+chordOrNot = [0,1]
 
 SCALING_FACTOR = 7.0/255
 durations = (0.25,0.5,0.75,1.0)
@@ -41,7 +41,7 @@ notes = [choice_of_scale[i] for i in range(len(choice_of_scale))]
 # Part 3: Go through the image and based on pixed values, play the permutation.
 # Part 3 -->
 
-image = cv2.imread('test.jpg', 0)
+image = cv2.imread('pigeon.jpg', 0)
 image = skimage.measure.block_reduce(image, (50,50), np.mean)
 image = image.flatten()
 # pooling stuff happens here
@@ -54,17 +54,19 @@ for px in image: #px is the pixel value
         px = px-1
     isChord = random.choice(chordOrNot)
     note = math.trunc(px*SCALING_FACTOR)
-    print(note)
     duration = random.choice(durations)
+    if note >= len(notes):
+        continue
     note = str(notes[note])
-    print(notes)
-    print(note)
+
     if note not in freq:
         flatOrSharp = note[-1]
         if flatOrSharp == '#':
             note = chr(ord(note[0])+1)
         else:
             note = chr(ord(note[0])-1)
+            if note not in freq:
+                continue
     fr = freq[note]
     if(isChord):
         # play a chord
@@ -79,7 +81,7 @@ for px in image: #px is the pixel value
                     a = chr(ord(a[0])+1)
                 else:
                     a = chr(ord(a[0])-1)
-                    if a == '@':
+                    if a not in freq:
                         break
             freq_list.append(freq[a])
         player.play_wave(synthesizer.generate_chord(freq_list, duration))
